@@ -11,14 +11,14 @@ class Overworld{
 
             //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-            this.map.drawLowerImage(this.ctx);
+            this.map.drawUpperImage(this.ctx);
 
             Object.values(this.map.gameObjects).forEach(object => {
                 //object.x += 0.02;
                 object.sprite.draw(this.ctx);
             })
 
-            this.map.drawUpperImage(this.ctx);
+            this.map.drawLowerImage(this.ctx);
 
             requestAnimationFrame(() => {
                 step();
@@ -28,7 +28,7 @@ class Overworld{
     }
 
     init(){
-        this.map = new OverworldMap(window.OverworldMaps.casa1);
+        this.map = new OverworldMap(window.OverworldMaps.casa3);
         this.startGameLoop();
 
 

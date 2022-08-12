@@ -18,7 +18,6 @@ class OverworldMap {
 window.OverworldMaps = {
     casa1: {
         id: "casa1",
-        lowerSrc: "./img/lugares/quarto1.png",
         upperSrc: "./img/lugares/quarto1.png",
         gameObjects: {
             hero: new GameObject({
@@ -34,12 +33,11 @@ window.OverworldMaps = {
     },
     casa3: {
         id: "casa3",
-        lowerSrc: "./img/lugares/quarto3.png",
         upperSrc: "./img/lugares/quarto3.png",
         gameObjects: {
             hero: new GameObject({
-                x: 3,
-                y: 5,
+                x: 5,
+                y: 6,
             }),
             npcA: new GameObject({
                 x: 9,
@@ -47,8 +45,8 @@ window.OverworldMaps = {
                 src: "/img/npc/SpriteSheet14.png"
             }),
             npcB: new GameObject({
-                x: 10,
-                y: 4,
+                x: 7,
+                y: 8,
                 src: "/img/npc/SpriteSheet8.png"
             }),
         }
