@@ -1,0 +1,34 @@
+.Battle{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url(/img/lugares/battle.png);
+    background-size: cover;
+    image-rendering: pixelated;
+}
+.Battle_hero, .Battle_enemy{
+    position: absolute;
+    transform: scale(2);
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    background: url(/img/npc/shadow.png) no-repeat no-repeat;
+    display: none;
+}
+.Battle_hero img, .Battle_enemy img{
+    pointer-events: none;
+}
+.Battle_hero{
+    bottom: 50px;
+    left: 60px;
+}
+.Battle_hero img{
+    transform: translate(-16px);
+    
+}
+.Battle_enemy{
+    top: 80px;
+    right: 60px;
+}

@@ -1,3 +1,11 @@
+:root {
+    --border-color: #291D4D;
+    --dialog-back: #FFF3B4;
+    --menu-back: #FFE8D2;
+    --menu-border: #A48465;
+    --menu-color: #3A160D;
+    --menu-selec-back: #7fc2ff;
+}
 *{
     box-sizing: border-box;
 }

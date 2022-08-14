@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="12" height="8" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="../../../../../Pictures/pokedex/Room_Builder_free_16x16.tsx"/>
+ <layer id="1" name="Camada de Tiles 1" width="12" height="8">
+  <data encoding="csv">
+29,325,325,325,325,325,325,325,325,325,325,31,
+46,342,342,342,342,342,342,342,342,342,342,48,
+46,200,200,200,200,200,200,200,200,200,200,48,
+46,217,217,217,217,217,217,217,217,217,217,48,
+46,217,217,217,217,217,217,217,217,217,217,48,
+46,217,217,217,217,217,217,217,217,217,217,48,
+46,217,217,217,217,217,217,217,217,217,217,48,
+63,64,64,64,64,64,64,64,64,64,64,65
+</data>
+ </layer>
+</map>
