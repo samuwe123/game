@@ -20,7 +20,7 @@ body{
     width: 352px;
     height: 198px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 100px; /* 20 */
     outline: 1px solid white;
     transform: scale(3) translateY(45%);
 }

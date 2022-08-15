@@ -59,12 +59,55 @@ class Combatant {
 
         this.hudElement.setAttribute("data-active", this.isActive);
         this.monsterElement.setAttribute("data-active", this.isActive);
-
+        
         this.hpFills.forEach(rect => rect.style.width = `${this.hpPercent}%`)
         this.xpFills.forEach(rect => rect.style.width = `${this.xpPercent}%`)
 
         this.hudElement.querySelector(".Combatant_level").innerText = this.level;
 
+        const statusElement = this.hudElement.querySelector(".Combatant_status");
+        if(this.status){
+            statusElement.innerText = this.status.type;
+            statusElement.style.display = "block";
+        } else {
+            statusElement.innerText = "";
+            statusElement.style.display = "none"; 
+        }
+    }
+
+    getReplacedEvents(originalEvents){
+        if(this.status?.type === "Paralisia" && utils.randomFromArray([true, false, false])){
+            return [
+                { type: "textMessage", text: `${this.name} está paralizado!` },
+            ] 
+        }
+        return originalEvents;
+    }
+
+    getPostEvents(){
+        if(this.status?.type === "Cura"){
+            return [
+                { type: "textMessage", text:"ativou a cura!" },
+                { type: "stateChange", recover: 10, onCaster: true }
+            ]
+        }
+        return [];
+    }
+
+    decrementStatus(){
+        if(this.status?.expiresIn > 0){
+            this.status.expiresIn -= 1;
+            if( this.status.expiresIn === 0){
+                this.update({
+                    status: null
+                })
+                return{
+                    type: "textMessage",
+                    text: "Status expirado!"
+                }
+            }
+        }
+        return null;
     }
 
     init(container){

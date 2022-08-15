@@ -9,12 +9,13 @@ class Battle{
                 xp: 70,
                 maxXp: 100,
                 level: 1,
-                status: null
+                status: { type: "saucy" },
+                isPlayerControlled: true
             }, this),
             "enemy1": new Combatant({
                 ...Monsters.Axolot,
                 team: "enemy",
-                hp: 100,
+                hp: 70,
                 maxHp: 100,
                 xp: 30,
                 maxXp: 100,
@@ -25,6 +26,12 @@ class Battle{
             player: "player1",
             enemy: "enemy1",
         }
+        this.items = [
+            { actionId: "item_recoverStatus", instanceId: "p1", team: "player" },
+            { actionId: "item_recoverStatus", instanceId: "p2", team: "player" },
+            { actionId: "item_recoverStatus", instanceId: "p3", team: "enemy" },
+            { actionId: "item_recoverHp", instanceId: "p4", team: "player" },
+        ]
     }
 
     createElement(){
@@ -58,10 +65,10 @@ class Battle{
                     battleEvent.init(resolve);
                 })
             }
-        })
+        }) 
 
         this.turnCycle.init();
-        
+
     }
 
 }
