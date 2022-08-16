@@ -15,8 +15,8 @@ class Combatant {
         return this.xp / this.maxXp * 100;
     }
 
-    get isActive(){
-        return this.battle.activeCombatants[this.team] === this.id;
+    get isActive() {
+        return this.battle?.activeCombatants[this.team] === this.id;
     }
 
     get givesXp(){

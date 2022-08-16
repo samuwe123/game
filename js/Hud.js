@@ -18,7 +18,7 @@ class Hud{
             const pizza = playerState.pizzas[key];
             const scoreboard = new Combatant({
             id: key,
-            ...Monsters[pizza.monsterId],
+            ...Monsters[pizza.pizzaId],
             ...pizza,
         }, null)
         scoreboard.createElement();
