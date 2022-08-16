@@ -1,0 +1,24 @@
+.Team {
+    display: flex;
+    position: absolute;
+    top:10px;
+    gap: 4px;
+}
+.Team[data-team="player"] {
+    left:34px;
+}
+.Team[data-team="enemy"] {
+    right:34px;
+}
+.Team .dead-cha {
+    display:none;
+}
+.Team .active-cha-indicator {
+    display:none;
+}
+.Team [data-dead="true"] .dead-cha {
+    display:block;
+  }
+.Team [data-active="true"] .active-cha-indicator {
+    display:block;
+}

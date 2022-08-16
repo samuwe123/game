@@ -14,7 +14,24 @@ window.Actions = {
         success: [
             { type: "textMessage", text: "{CASTER} usou {ACTION}!" },
             { type: "animation", animation: "spin" },
-            { type: "stateChange", damage: 30 }
+            { type: "stateChange", damage: 40 }
+        ]
+    },
+    damage3: {
+        name: "Martelada!",
+        description: "Martelo pesado do Fred!",
+        success: [
+            { type: "textMessage", text: "{CASTER} usou {ACTION}!" },
+            { type: "animation", animation: "spin" },
+            { type: "stateChange", damage: 50 },
+        ]
+    },
+    damage4: {
+        name: "Chamas!",
+        success: [
+            { type: "textMessage", text: "{CASTER} usou {ACTION}!" },
+            { type: "animation", animation: "glob", color: "red"},
+            { type: "stateChange", damage: 40 },
         ]
     },
     saucyStatus: {

@@ -8,10 +8,28 @@ window.MonsterTypes = {
 window.Monsters = {
     "Ninja": {
         name: "Ninja",
+        description: "Um ninja supremo",
+        description: "Hero",
         type: MonsterTypes.assasino,
-        src: "/img/npc/ninjago1.png",
+        src: "/img/npc/SpriteSheetgo1.png",
         icon: "/img/icons/assasino.png",
         actions: [ "saucyStatus", "clumsyStatus", "damage1", "damage2" ],
+    },
+    "Friend": {
+        name: "Amigo",
+        description: "Um parceiro consistente",
+        type: MonsterTypes.guerreiro,
+        src: "/img/npc/SpriteSheetgo8.png",
+        icon: "/img/icons/guerreiro.png",
+        actions: [ "saucyStatus", "clumsyStatus", "damage1", ],
+    },
+    "Fred": {
+        name: "Fred",
+        description: "Um maluco da pesada",
+        type: MonsterTypes.tank,
+        src: "/img/npc/SpriteSheetgo4.png",
+        icon: "/img/icons/escudo.png",
+        actions: [ "saucyStatus", "clumsyStatus", "damage3", "damage1", ],
     },
     "Axolot": {
         name: "Axolot",
@@ -32,7 +50,7 @@ window.Monsters = {
         type: MonsterTypes.mago,
         src: "/img/npc/monstergo5.png",
         icon: "/img/icons/mago.png",
-        actions: [ "damage1" ],
+        actions: [ "damage4" ],
     },
     "Bamboo": {
         name: "Bamboo",

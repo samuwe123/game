@@ -18,6 +18,19 @@ class TurnCycle{
             enemy
         })
 
+        if(submission.replacement){
+            await this.onNewEvent({
+                type: "replace",
+                replacement: submission.replacement
+            })
+            await this.onNewEvent({
+                type: "textMessage",
+                text: `Entre para me ajudar, ${submission.replacement.name}!`
+            })
+            this.nextTurn();
+            return;
+        }
+
         if(submission.instanceId){
             this.battle.items = this.battle.items.filter(i => i.instanceId !== submission.instanceId)
         }
@@ -33,6 +46,53 @@ class TurnCycle{
                 target: submission.target,
             }
             await this.onNewEvent(event);
+        }
+
+        const targetDead = submission.target.hp <= 0;
+        if(targetDead){
+            await this.onNewEvent({
+                type: "textMessage", text: `${submission.target.name} morreu!`
+            })
+
+            if(submission.target.team === "enemy"){
+                const playerActiveHeroId = this.battle.activeCombatants.player;
+                const xp = submission.target.givesXp;
+
+                await this.onNewEvent({
+                    type: "textMessage",
+                    text: `Ganhou ${xp} XP!`
+                })
+
+                await this.onNewEvent({
+                    type: "giveXp",
+                    xp,
+                    combatant: this.battle.combatants[playerActiveHeroId]
+                }) 
+            }
+        }
+
+        const winner = this.getWinningTeam();
+        if(winner){
+            await this.onNewEvent({
+                type: "textMessage",
+                text: "Vitória!"
+            })
+            return;
+        }
+
+        if(targetDead){
+            const replacement = await this.onNewEvent({
+                type: "replacementMenu",
+                team: submission.target.team
+            })
+            await this.onNewEvent({
+                type: "replace",
+                replacement: replacement
+            })
+            await this.onNewEvent({
+                type: "textMessage",
+                text: `${replacement.name} apareceu!`
+            })
         }
 
         const postEvents = caster.getPostEvents();
@@ -52,9 +112,24 @@ class TurnCycle{
             await this.onNewEvent(expiredEvent)
         }
 
+        this.nextTurn();
+    }
+
+    nextTurn(){
         this.currentTeam = this.currentTeam === "player" ? "enemy" : "player";
         this.turn();
+    }
 
+    getWinningTeam(){
+        let aliveTeams = {};
+        Object.values(this.battle.combatants).forEach(c => {
+            if (c.hp > 0){
+                aliveTeams[c.team] = true;
+            }
+        })
+        if (!aliveTeams["player"]) { return "enemy"}
+        if (!aliveTeams["enemy"]) { return "player"}
+        return null;
     }
 
     async init(){
