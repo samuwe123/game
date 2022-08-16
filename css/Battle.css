@@ -7,6 +7,7 @@
     background-image: url(/img/lugares/battle.png);
     background-size: cover;
     image-rendering: pixelated;
+
 }
 .Battle_hero, .Battle_enemy{
     position: absolute;
@@ -21,7 +22,6 @@
     pointer-events: none;
 }
 .Battle_hero{
-    bottom: 50px;
     left: 60px;
 }
 .Battle_hero img{
@@ -29,7 +29,7 @@
     
 }
 .Battle_enemy{
-    top: 80px;
+    top: 90px;
     right: 60px;
 }
 @keyframes battle-damage-blink{

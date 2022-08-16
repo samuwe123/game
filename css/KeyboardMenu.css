@@ -2,8 +2,8 @@
     border: 1px solid var(--border-color);
     background: var(--menu-back);
     position: absolute;
-    margin-bottom: 22px;
-    margin-right: 30px;
+    margin-right: 26px;
+    margin-bottom: 8px;
 }
 .KeyboardMenu button{
     display: flex;
@@ -46,9 +46,9 @@
     border-top: 1px solid var(--border-color);
     background: var(--menu-back);
     padding: 2px;
-    margin-bottom: 23px;
+    margin-bottom: 9px;
     width: 80%;
-    margin-left: 29.4px;
+    margin-left: 27px;
 }
 .DescriptionBox p{
     font-size: 10px;

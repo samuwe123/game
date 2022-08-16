@@ -143,6 +143,19 @@ class OverworldMap {
               }
             ]
         }),
+        npcC: new Person({
+          x: utils.withGrid(3),
+          y: utils.withGrid(4),
+          src: "/img/npc/SpriteSheet11.png",
+          talking: [
+            {
+              events: [
+                { type: "textMessage", text: "Olá!", faceHero: "npcC" },
+                { type: "battle", enemyId: "m1" }
+              ]
+            }
+          ]
+      }),
     },
     walls: {
         [utils.asGridCoord(2,2)] : true,

@@ -5,7 +5,7 @@
     position: absolute;
 }
 .Battle .Combatant{
-    transform: scale(1.8);
+    transform: scale(2);
     transition: opacity 0.4s;
 }
 .Battle .Combatant[data-active="false"]{
@@ -16,10 +16,10 @@
 }
 .Combatant[data-team="player"]{
     left: 65px;
-    top: 80px;
+    top: 90px;
 }
 .Combatant[data-team="enemy"]{
-    top: 38px;
+    top: 48px;
     right: 60px;
 }
 .Combatant_character_crop{
@@ -114,11 +114,11 @@
     background: url(/img/npc/shadow.png) no-repeat no-repeat;
 }
 .Monster[data-team="player"]{
-    bottom: 55px;
+    bottom: 50px;
     left: 80px;
 }
 .Monster[data-team="enemy"]{
-    top: 77px;
+    top: 87px;
     right: 80px;
 }
 .Monster[data-active="false"]{

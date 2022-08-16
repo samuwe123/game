@@ -1,5 +1,6 @@
 class Battle{
     constructor({ enemy, onComplete }){
+        console.log(enemy, this.enemy);
 
         this.enemy = enemy;
         this.onComplete = onComplete;
@@ -71,12 +72,16 @@ class Battle{
             this.addCombatant("e_"+key, "enemy", this.enemy.pizzas[key])
         })
         
-        this.items = [
-            //{ actionId: "item_recoverStatus", instanceId: "p1", team: "player" },
-            //{ actionId: "item_recoverStatus", instanceId: "p2", team: "player" },
-            //{ actionId: "item_recoverStatus", instanceId: "p3", team: "enemy" },
-            //{ actionId: "item_recoverHp", instanceId: "p4", team: "player" },
-        ]
+        this.items = []
+
+        window.playerState.items.forEach(item => {
+            this.items.push({
+              ...item,
+              team: "player"
+            })
+        }) 
+
+        this.usedInstanceIds = {};
     }
 
     addCombatant(id, team, config) {
@@ -99,7 +104,7 @@ class Battle{
             <img src="${'/img/npc/SpriteSheet1.png'}" alt="Hero"/>
         </div>
         <div class="Battle_enemy">
-            <img src="${'/img/npc/monster1.png'}" alt="Enemy"/>
+            <img src="${this.enemy.src}" alt=${this.enemy.name}/>
         </div>
         `)
     }
@@ -133,11 +138,30 @@ class Battle{
                     const battleEvent = new BattleEvent(event, this)
                     battleEvent.init(resolve);
                 })
+            },
+            onWinner: winner => {
+                
+                if (winner === "player") {
+                  const playerState = window.playerState;
+                  Object.keys(playerState.pizzas).forEach(id => {
+                    const playerStatePizza = playerState.pizzas[id];
+                    const combatant = this.combatants[id];
+                    if (combatant) {
+                      playerStatePizza.hp = combatant.hp;
+                      playerStatePizza.xp = combatant.xp;
+                      playerStatePizza.maxXp = combatant.maxXp;
+                      playerStatePizza.level = combatant.level;
+                    }
+                  }) 
+                  playerState.items = playerState.items.filter(item => {
+                    return !this.usedInstanceIds[item.instanceId]
+                  })
+                } 
+                this.element.remove();
+                this.onComplete();
             }
         }) 
-
         this.turnCycle.init();
-
     }
 
 }

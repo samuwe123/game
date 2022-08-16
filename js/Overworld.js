@@ -65,8 +65,10 @@ class Overworld {
     }
    
     init() {
+     this.hud = new Hud();
+     this.hud.init(document.querySelector(".game-container"));
+     
      this.startMap(window.OverworldMaps.start);
-   
    
      this.bindActionInput();
      this.bindHeroPositionCheck();
@@ -76,12 +78,12 @@ class Overworld {
    
      this.startGameLoop();
    
-   
+    /*
      this.map.startCutscene([
-      { type: "battle", enemtId: "m1" }
+      { type: "battle", enemyId: "m1" }
       //{ type: "changeMap", map: "quarto1"}
      //{ type: "textMessage", text: "Minha primeira mensagem!"}
-     ])
+     ]) */
    
     }
    }

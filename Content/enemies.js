@@ -1,6 +1,6 @@
 window.Enemies = {
     "m1": {
-      name: "m1",
+      name: "Monstro",
       src: "/img/npc/SpriteSheet3.png",
       pizzas: {
         "a": {
@@ -12,7 +12,7 @@ window.Enemies = {
       }
     },
     "m2": {
-      name: "m2",
+      name: "O monstro",
       src: "/img/npc/SpriteSheet4.png",
       pizzas: {
         "a": {
