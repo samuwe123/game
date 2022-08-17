@@ -56,7 +56,10 @@ class OverworldMap {
           event: events[i],
           map: this,
         })
-        await eventHandler.init();
+        const result = await eventHandler.init();
+        if (result === "LOST_BATTLE"){
+          break;
+        }
       }
   
       this.isCutscenePlaying = false;
@@ -72,7 +75,13 @@ class OverworldMap {
         return `${object.x},${object.y}` === `${nextCoords.x},${nextCoords.y}`
       });
       if (!this.isCutscenePlaying && match && match.talking.length) {
-        this.startCutscene(match.talking[0].events)
+
+        const relevantScenario = match.talking.find(scenario => {
+          return (scenario.required || []).every(sf => {
+            return playerState.storyFlags[sf]
+          })
+        })
+        relevantScenario && this.startCutscene(relevantScenario.events)
       }
     }
   
@@ -119,13 +128,14 @@ class OverworldMap {
                 { type: "textMessage", text: "Você é o único que pode salvar a todos!"},
                 { type: "textMessage", text: "Derrote todos os monstros!"},
                 { type: "textMessage", text: "Vamos lá!"},
-                {      
-                    type: "changeMap", 
-                    map: "quarto1",
-                    x: utils.withGrid(7),
-                    y: utils.withGrid(3),
-                    direction: "down"
-                }
+                { type: "addStoryFlag", flag: "FALAR_COM_COISINHA"}
+                //{      
+                    //type: "changeMap", 
+                    //map: "quarto1",
+                    //x: utils.withGrid(7),
+                    //y: utils.withGrid(3),
+                    //direction: "down"
+                //}
               ]
             }
           ]
@@ -150,13 +160,27 @@ class OverworldMap {
           src: "/img/npc/SpriteSheet11.png",
           talking: [
             {
+              required: ["FALAR_COM_COISINHA"],
               events: [
-                { type: "textMessage", text: "Olá!", faceHero: "npcC" },
-                { type: "battle", enemyId: "m1" }
+                { type: "textMessage", text: "Muito bem!", faceHero: "npcC" }
+              ]
+            },
+            {
+              events: [
+                { type: "textMessage", text: "Que isso?", faceHero: "npcC" },
+                { type: "battle", enemyId: "m1" },
+                { type: "addStoryFlag", flag: "DERROTE_M1"},
+                { type: "textMessage", text: "Como eu perdi?", faceHero: "npcC" },
               ]
             }
           ]
       }),
+      pizzaStone: new PizzaStone({
+        x: utils.withGrid(6),
+        y: utils.withGrid(10),
+        storyFlag: "USED_PIZZA_STONE",
+        pizzas: ["Amigo"],
+      })
     },
     walls: {
         [utils.asGridCoord(2,2)] : true,

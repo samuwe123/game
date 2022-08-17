@@ -29,13 +29,35 @@ class PlayerState {
             status: null,
           }
       }
-      this.lineup = ["p1", "p2", "p3"];
+      this.lineup = ["p1"];
       this.items = [
         { actionId: "item_recoverHp", instanceId: "item1" },
         { actionId: "item_recoverHp", instanceId: "item2" },
         { actionId: "item_recoverStatus", instanceId: "item3" },
       ]
+      this.storyFlags = {
+      };
     }
+
+    addPizza(pizzaId) {
+      const newId = `p${Date.now()}`+Math.floor(Math.random() * 99999);
+      this.pizzas[newId] = {
+          pizzaId: "Friend",
+          hp: 50,
+          maxHp: 100,
+          xp: 75,
+          maxXp: 100,
+          level: 1,
+          status: null
+      }
+      if (this.lineup.length < 3) {
+        this.lineup.push(newId)
+      }
+      utils.emitEvent("LineupChanged");
+      console.log(this)
+    }
+  
+
     swapLineup(oldId, incomingId) {
       const oldIndex = this.lineup.indexOf(oldId);
       this.lineup[oldIndex] = incomingId;

@@ -37,24 +37,9 @@ class PauseMenu {
       ]
     }
 
-    const unequipped = Object.keys(playerState.pizzas).filter(id => {
-        console.log("unequipped")
-        return playerState.lineup.indexOf(id) === -1;
-      }).map(id => {
-        const {pizzaId} = playerState.pizzas[id];
-        const base = Monsters[pizzaId];
-        return {
-          label: `Swap for ${base.name}`,
-          description: base.description,
-          handler: () => {
-            playerState.swapLineup(pageKey, id);
-            this.keyboardMenu.setOptions( this.getOptions("root") );
-          }
-        }
-      })
+    
 
     return [
-      ...unequipped,
       {
         label: "Mover para frente",
         description: "mova seus personagens para frente",
@@ -75,7 +60,8 @@ class PauseMenu {
 
   createElement() {
     this.element = document.createElement("div");
-    this.element.classList.add("PauseMenu")
+    this.element.classList.add("PauseMenu");
+    this.element.classList.add("overlayMenu");
     this.element.innerHTML = (`
       <h2>Pause Menu</h2>
     `)
