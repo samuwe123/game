@@ -109,6 +109,7 @@ class OverworldMap {
   
   window.OverworldMaps = {
     start: {
+      id: "start",
       lowerSrc: "./img/lugares/start.png",
       upperSrc: "./img/lugares/start1.png",
       gameObjects: {
@@ -257,6 +258,7 @@ class OverworldMap {
     },
     },
     quarto1: {
+      id: "quarto1",
       lowerSrc: "./img/lugares/quarto1.png",
       upperSrc: "./img/lugares/quartoa1.png",
       gameObjects: {
@@ -388,49 +390,25 @@ class OverworldMap {
             
       },
       cutsceneSpaces: { 
-        [utils.asGridCoord(8,9)]: [
+        [utils.asGridCoord(8,12)]: [
           {
             events: [
-              { who: "npcB", type: "walk",  direction: "left" },
-              { who: "npcB", type: "walk",  direction: "left" },
-              { who: "npcB", type: "stand",  direction: "up", time: 500 },
-              { type: "textMessage", text:"Não passe por aqui!"},
-              { type: "textMessage", text:"Fale com o instrutor acima!"},
-              { who: "npcB", type: "walk",  direction: "right" },
-              { who: "npcB", type: "walk",  direction: "right" },
-              { who: "npcB", type: "stand",  direction: "down", time: 500 },
-              { who: "hero", type: "walk",  direction: "up" },
-            ]
-          }
-        ],
-          [utils.asGridCoord(7,10)]: [
-            /*{
-            events: [
-                { who: "npcB", type: "walk",  direction: "left" },
-                { who: "npcB", type: "walk",  direction: "left" },
-                { who: "npcB", type: "stand",  direction: "left", time: 500 },
-                { type: "textMessage", text:"Não passe por aqui!"},
-                { type: "textMessage", text:"Fale com o instrutor acima!"},
-                { who: "npcB", type: "walk",  direction: "right" },
-                { who: "npcB", type: "walk",  direction: "right" },
-                { who: "npcB", type: "stand",  direction: "down", time: 500 },
-                { who: "hero", type: "walk",  direction: "up" },
-            ]
-          } */
-        ], 
-        [utils.asGridCoord(5,8)]: [
-          {
-            events: [
-              { type: "changeMap", map: "quarto2" }
+              {
+                type: "changeMap",
+                map: "fallarden",
+                x: utils.withGrid(6),
+                y: utils.withGrid(6),
+                direction: "down"
+              }
             ]
           }
         ]
       }
-    
-    },
+    },    
     quarto2: {
-      lowerSrc: "/img/lugares/quarto2.png",
-      upperSrc: "/img/lugares/quartob1.png",
+      id: "quarto2",
+      lowerSrc: "./img/lugares/quarto2.png",
+      upperSrc: "./img/lugares/quartob1.png",
       gameObjects: {
         hero: new Person({
           isPlayerControlled: true,
@@ -451,4 +429,31 @@ class OverworldMap {
         }) */
       }
     },
+    fallarden:{
+      id: "fallarden",
+      lowerSrc: "./img/lugares/fallarden-town.png",
+      upperSrc: "./img/lugares/fallarden-town1.png",
+      gameObjects: {
+        hero: new Person({
+          isPlayerControlled: true,
+          x: utils.withGrid(8),
+          y: utils.withGrid(8),
+        })
+      },
+      cutsceneSpaces:{
+        [utils.asGridCoord(6,5)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "quarto1",
+                x: utils.withGrid(8),
+                y: utils.withGrid(12),
+                direction: "up"
+              }
+            ]
+          }
+        ]
+      }
+    }
   }

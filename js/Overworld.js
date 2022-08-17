@@ -66,17 +66,26 @@ class Overworld {
       })
     }
    
-    startMap(mapConfig) {
+    startMap(mapConfig, heroInitialState=null) {
      this.map = new OverworldMap(mapConfig);
      this.map.overworld = this;
      this.map.mountObjects();
+
+     if (heroInitialState) {
+      const {hero} = this.map.gameObjects;
+      this.map.removeWall(hero.x, hero.y);
+      hero.x = heroInitialState.x;
+      hero.y = heroInitialState.y;
+      hero.direction = heroInitialState.direction;
+      this.map.addWall(hero.x, hero.y);
+    }
     }
    
     init() {
      this.hud = new Hud();
      this.hud.init(document.querySelector(".game-container"));
      
-     this.startMap(window.OverworldMaps.start);
+     this.startMap(window.OverworldMaps.fallarden);
    
      this.bindActionInput();
      this.bindHeroPositionCheck();
