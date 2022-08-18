@@ -46,9 +46,7 @@
     border-top: 1px solid var(--border-color);
     background: var(--menu-back);
     padding: 2px;
-    margin-bottom: 9px;
-    width: 85%;
-    margin-left: 27px;
+    width: 100%;
 }
 .DescriptionBox p{
     font-size: 10px;

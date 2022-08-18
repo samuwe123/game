@@ -1,7 +1,9 @@
 class OverworldMap {
     constructor(config) {
       this.overworld = null;
-      this.gameObjects = config.gameObjects;
+      this.gameObjects = {};
+      this.ConfigObjects = config.ConfigObjects;
+
       this.cutsceneSpaces = config.cutsceneSpaces || {};
       this.walls = config.walls || {};
   
@@ -33,17 +35,34 @@ class OverworldMap {
   
     isSpaceTaken(currentX, currentY, direction) {
       const {x,y} = utils.nextPosition(currentX, currentY, direction);
-      return this.walls[`${x},${y}`] || false;
+      if (this.walls[`${x},${y}`]) {
+        return true;
+      }
+      return Object.values(this.gameObjects).find(obj => {
+        if (obj.x === x && obj.y === y) { return true; }
+        if (obj.intentPosition && obj.intentPosition[0] === x && obj.intentPosition[1] === y ) {
+          return true;
+        }
+        return false;
+      })
     }
   
     mountObjects() {
-      Object.keys(this.gameObjects).forEach(key => {
+      Object.keys(this.ConfigObjects).forEach(key => {
   
-        let object = this.gameObjects[key];
+        let object = this.ConfigObjects[key];
         object.id = key;
-  
-        //TODO: determine if this object should actually mount
-        object.mount(this);
+
+        let instance;
+        if (object.type === "Person") {
+            instance = new Person(object);
+          }
+          if (object.type === "PizzaStone") {
+            instance = new PizzaStone(object);
+          }
+          this.gameObjects[key] = instance;
+          this.gameObjects[key].id = key;
+          instance.mount(this);
   
       })
     }
@@ -65,7 +84,6 @@ class OverworldMap {
       this.isCutscenePlaying = false;
   
       //Reset NPCs to do their idle behavior
-      Object.values(this.gameObjects).forEach(object => object.doBehaviorEvent(this))
     }
   
     checkForActionCutscene() {
@@ -92,19 +110,6 @@ class OverworldMap {
         this.startCutscene( match[0].events )
       }
     }
-  
-    addWall(x,y) {
-      this.walls[`${x},${y}`] = true;
-    }
-    removeWall(x,y) {
-      delete this.walls[`${x},${y}`]
-    }
-    moveWall(wasX, wasY, direction) {
-      this.removeWall(wasX, wasY);
-      const {x,y} = utils.nextPosition(wasX, wasY, direction);
-      this.addWall(x,y);
-    }
-  
   }
   
   window.OverworldMaps = {
@@ -112,36 +117,40 @@ class OverworldMap {
       id: "start",
       lowerSrc: "./img/lugares/start.png",
       upperSrc: "./img/lugares/start1.png",
-      gameObjects: {
-        hero: new Person({
+      ConfigObjects: {
+        hero: {
+          type: "Person",
           isPlayerControlled: true,
           x: utils.withGrid(5),
           y: utils.withGrid(7),
-        }),
-        npcA: new Person({
+        },
+        npcA:{
+          type: "Person",
           x: utils.withGrid(5),
           y: utils.withGrid(6),
           src: "/img/npc/SpriteSheet7.png",
           talking: [
             {
               events: [
+                { type: "textMessage", text: "Space para interagir e Enter para abrir menu", faceHero: "npcA" },
                 { type: "textMessage", text: "O mundo está em perigo...", faceHero: "npcA" },
                 { type: "textMessage", text: "Você é o único que pode salvar a todos!"},
                 { type: "textMessage", text: "Derrote todos os monstros!"},
                 { type: "textMessage", text: "Vamos lá!"},
-                { type: "addStoryFlag", flag: "FALAR_COM_COISINHA"}
-                //{      
-                    //type: "changeMap", 
-                    //map: "quarto1",
-                    //x: utils.withGrid(7),
-                    //y: utils.withGrid(3),
-                    //direction: "down"
-                //}
+                { type: "addStoryFlag", flag: "TUTORIAL"},
+                {      
+                    type: "changeMap", 
+                    map: "quarto1",
+                    x: utils.withGrid(8),
+                    y: utils.withGrid(6),
+                    direction: "down"
+                }
               ]
             }
           ]
-        }),
-        npcB: new Person({
+        },
+        npcB:{
+            type: "Person",
             x: utils.withGrid(8),
             y: utils.withGrid(7),
             src: "/img/npc/SpriteSheet8.png",
@@ -154,7 +163,7 @@ class OverworldMap {
                 ]
               }
             ]
-        }),
+        }, /*
         npcC: new Person({
           x: utils.withGrid(3),
           y: utils.withGrid(4),
@@ -175,13 +184,7 @@ class OverworldMap {
               ]
             }
           ]
-      }),
-      pizzaStone: new PizzaStone({
-        x: utils.withGrid(6),
-        y: utils.withGrid(10),
-        storyFlag: "USED_PIZZA_STONE",
-        pizzas: ["Amigo"],
-      })
+      }), */
     },
     walls: {
         [utils.asGridCoord(2,2)] : true,
@@ -233,6 +236,7 @@ class OverworldMap {
         [utils.asGridCoord(9,6)] : true,
         [utils.asGridCoord(9,7)] : true,
         [utils.asGridCoord(9,8)] : true,
+
     },
     cutsceneSpaces: {
         [utils.asGridCoord(8,9)]: [
@@ -261,12 +265,13 @@ class OverworldMap {
       id: "quarto1",
       lowerSrc: "./img/lugares/quarto1.png",
       upperSrc: "./img/lugares/quartoa1.png",
-      gameObjects: {
-        hero: new Person({
+      ConfigObjects: {
+        hero:{
+          type: "Person",
           isPlayerControlled: true,
           x: utils.withGrid(8),
           y: utils.withGrid(7),
-        }),
+        },/*
         npcA: new Person({
           x: utils.withGrid(9),
           y: utils.withGrid(7),
@@ -282,11 +287,11 @@ class OverworldMap {
               ]
             }
           ]
-        }),
-        npcB: new Person({
-          x: utils.withGrid(10),
-          y: utils.withGrid(10),
-          src: "/img/npc/SpriteSheet11.png",
+        }),*/
+        //npcB: new Person({
+          //x: utils.withGrid(10),
+          //y: utils.withGrid(10),
+          //src: "/img/npc/SpriteSheet11.png",
           // behaviorLoop: [
           //   { type: "walk",  direction: "left" },
           //   { type: "stand",  direction: "up", time: 800 },
@@ -294,7 +299,7 @@ class OverworldMap {
           //   { type: "walk",  direction: "right" },
           //   { type: "walk",  direction: "down" },
           // ]
-        }),
+        //}),
       }, 
       walls: {
         [utils.asGridCoord(2,8)] : true,
@@ -401,7 +406,7 @@ class OverworldMap {
                 direction: "down"
               }
             ]
-          }
+          },
         ]
       }
     },    
@@ -409,12 +414,72 @@ class OverworldMap {
       id: "quarto2",
       lowerSrc: "./img/lugares/quarto2.png",
       upperSrc: "./img/lugares/quartob1.png",
-      gameObjects: {
-        hero: new Person({
+      ConfigObjects: {
+        hero: {
+          type: "Person",
           isPlayerControlled: true,
+          x: utils.withGrid(8),
+          y: utils.withGrid(9),
+        },
+        npcA: {
+          type: "Person",
+          x: utils.withGrid(10),
+          y: utils.withGrid(9),
+          src: "/img/npc/SpriteSheet8.png",
+          talking: [
+            {
+              required: ["CONVERSAR_COM_PAIS"],
+              events: [
+                { type: "textMessage", text: "Muito bem! Irei te acompanhar", faceHero: "npcA" },
+              ]
+            },
+            {
+              events: [
+                { type: "textMessage", text: "Eai velho amigo! Faz tanto tempo que não te vejo!", faceHero:"npcA" },
+                { type: "textMessage", text: "O mundo está perigoso muitos monstros por ai!"},
+                { type: "textMessage", text: "Posso te ajudar nessa jornada, mas terá que conversar com meus pais!"},
+              ]
+            }
+          ]
+        },
+        npcB: {
+          type: "Person",
+          x: utils.withGrid(7),
+          y: utils.withGrid(8),
+          src: "/img/npc/SpriteSheet7.png",
+          talking: [
+            
+            {
+              events: [
+                { type: "textMessage", text: "Liberado!", faceHero:"npcB" },
+                { type: "addStoryFlag", flag: "CONVERSAR_COM_PAIS"},
+              ]
+            }
+          ]
+        },
+        pizzaStone: {
+          type: "PizzaStone",
           x: utils.withGrid(5),
-          y: utils.withGrid(5),
-        }), /*
+          y: utils.withGrid(9),
+          storyFlag: "USED_PIZZA_STONE",
+          pizzas: ["Friend"],
+        },
+      },
+        cutsceneSpaces: { 
+          [utils.asGridCoord(8,12)]: [
+            {
+              events: [
+                {
+                  type: "changeMap",
+                  map: "fallarden",
+                  x: utils.withGrid(11),
+                  y: utils.withGrid(6),
+                  direction: "down"
+                }
+              ]
+            },
+          ]
+        } /*
         npcB: new Person({
           x: utils.withGrid(10),
           y: utils.withGrid(8),
@@ -427,18 +492,18 @@ class OverworldMap {
             }
           ]
         }) */
-      }
     },
     fallarden:{
       id: "fallarden",
       lowerSrc: "./img/lugares/fallarden-town.png",
       upperSrc: "./img/lugares/fallarden-town1.png",
-      gameObjects: {
-        hero: new Person({
+      ConfigObjects: {
+        hero: {
+          type: "Person",
           isPlayerControlled: true,
           x: utils.withGrid(8),
           y: utils.withGrid(8),
-        })
+        }
       },
       cutsceneSpaces:{
         [utils.asGridCoord(6,5)]: [
@@ -453,7 +518,140 @@ class OverworldMap {
               }
             ]
           }
+        ],
+        [utils.asGridCoord(11,5)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "quarto2",
+                x: utils.withGrid(8),
+                y: utils.withGrid(12),
+                direction: "up"
+              }
+            ]
+          }
+        ],
+        [utils.asGridCoord(7,12)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "quarto3",
+                x: utils.withGrid(8),
+                y: utils.withGrid(12),
+                direction: "up"
+              }
+            ]
+          }
+        ],
+        [utils.asGridCoord(3,12)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "quarto4",
+                x: utils.withGrid(8),
+                y: utils.withGrid(12),
+                direction: "up"
+              }
+            ]
+          }
+        ],
+      }
+    },
+    quarto3:{
+      id: "quarto3",
+      lowerSrc: "./img/lugares/quarto3.png",
+      upperSrc: "./img/lugares/quartoa1.png",
+      ConfigObjects: {
+        hero: {
+          type: "Person",
+          isPlayerControlled: true,
+          x: utils.withGrid(8),
+          y: utils.withGrid(8),
+        }
+      },
+      cutsceneSpaces:{
+        [utils.asGridCoord(8,12)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "fallarden",
+                x: utils.withGrid(7),
+                y: utils.withGrid(13),
+                direction: "down"
+              }
+            ]
+          }
+        ],
+      }
+    },
+    quarto4:{
+      id: "quarto4",
+      lowerSrc: "./img/lugares/quarto3.png",
+      upperSrc: "./img/lugares/quartoa1.png",
+      ConfigObjects: {
+        hero: {
+          type: "Person",
+          isPlayerControlled: true,
+          x: utils.withGrid(8),
+          y: utils.withGrid(8),
+        },
+        npcA: {
+            type: "Person",
+            x: utils.withGrid(10),
+            y: utils.withGrid(9),
+            src: "/img/npc/SpriteSheet8.png",
+            talking: [
+              {
+                events: [
+                  { type: "textMessage", text: "HAI!", faceHero:"npcA" },
+                ]
+              },
+            ]
+        },
+        npcB: {
+            type: "Person",
+            x: utils.withGrid(4),
+            y: utils.withGrid(6),
+            src: "/img/npc/SpriteSheet11.png",
+            talking: [
+            {
+                events: [
+                { type: "textMessage", text: "HAI!", faceHero:"npcB" },
+                ]
+            }
+            ],
+        behaviorLoop: [
+          { type: "walk", direction: "right", },
+          { type: "walk", direction: "right", },
+          { type: "walk", direction: "down", },
+          { type: "walk", direction: "down", },
+          { type: "walk", direction: "left", },
+          { type: "walk", direction: "left", },
+          { type: "walk", direction: "up", },
+          { type: "walk", direction: "up", },
+          { type: "stand", direction: "up", time: 500 },
+          { type: "stand", direction: "left", time: 500 },
         ]
+        },
+      },
+      cutsceneSpaces:{
+        [utils.asGridCoord(8,12)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "fallarden",
+                x: utils.withGrid(3),
+                y: utils.withGrid(13),
+                direction: "down"
+              }
+            ]
+          }
+        ],
       }
     }
   }

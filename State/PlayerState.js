@@ -3,13 +3,13 @@ class PlayerState {
       this.pizzas = {
         "p1": {
           pizzaId: "Ninja",
-          hp: 90,
+          hp: 100,
           maxHp: 100,
-          xp: 90,
+          xp: 0,
           maxXp: 100,
           level: 1,
           status: null,
-        },
+        }, /*
         "p2": {
           pizzaId: "Friend",
           hp: 50,
@@ -27,7 +27,7 @@ class PlayerState {
             maxXp: 100,
             level: 1,
             status: null,
-          }
+          } */
       }
       this.lineup = ["p1"];
       this.items = [
