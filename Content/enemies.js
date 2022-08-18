@@ -16,7 +16,7 @@ window.Enemies = {
       src: "/img/npc/SpriteSheet4.png",
       pizzas: {
         "a": {
-          hp: 1,
+          hp: 100,
           pizzaId: "Axolot",
           maxHp: 100,
           level: 1,
@@ -28,5 +28,17 @@ window.Enemies = {
             level: 1,
         },
       }
-    }
+    },
+    "m3": {
+      name: "O monstro",
+      src: "/img/npc/SpriteSheet4.png",
+      pizzas: {
+        "a": {
+          hp: 80,
+          pizzaId: "Bamboo",
+          maxHp: 80,
+          level: 1,
+        },
+      }
+    },
   }

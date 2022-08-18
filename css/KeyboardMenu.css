@@ -2,8 +2,6 @@
     border: 1px solid var(--border-color);
     background: var(--menu-back);
     position: absolute;
-    margin-right: 26px;
-    margin-bottom: 8px;
 }
 .KeyboardMenu button{
     display: flex;

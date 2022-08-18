@@ -34,6 +34,14 @@ window.Actions = {
             { type: "stateChange", damage: 40 },
         ]
     },
+    damage5: {
+        name: "Corte Navalha!",
+        success: [
+            { type: "textMessage", text: "{CASTER} usou {ACTION}!" },
+            { type: "animation", animation: "glob", color: "green"},
+            { type: "stateChange", damage: 30 },
+        ]
+    },
     saucyStatus: {
         name: "Cura",
         description: "Se cura a cada turno!",

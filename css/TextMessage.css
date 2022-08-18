@@ -8,6 +8,7 @@
     background: var(--menu-back);
     border-top: 1px solid var(--menu-border);
     color: var(--menu-color);
+    
 }
 .TextMessage_p{
     margin: 0;

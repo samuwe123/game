@@ -43,9 +43,9 @@ class PlayerState {
       const newId = `p${Date.now()}`+Math.floor(Math.random() * 99999);
       this.pizzas[newId] = {
           pizzaId: "Friend",
-          hp: 50,
+          hp: 100,
           maxHp: 100,
-          xp: 75,
+          xp: 0,
           maxXp: 100,
           level: 1,
           status: null

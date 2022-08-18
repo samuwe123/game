@@ -431,6 +431,7 @@ class OverworldMap {
               required: ["CONVERSAR_COM_PAIS"],
               events: [
                 { type: "textMessage", text: "Muito bem! Irei te acompanhar", faceHero: "npcA" },
+                { type: "addStoryFlag", flag: "CONVERSOU_COM_PAIS" },
               ]
             },
             {
@@ -438,21 +439,6 @@ class OverworldMap {
                 { type: "textMessage", text: "Eai velho amigo! Faz tanto tempo que não te vejo!", faceHero:"npcA" },
                 { type: "textMessage", text: "O mundo está perigoso muitos monstros por ai!"},
                 { type: "textMessage", text: "Posso te ajudar nessa jornada, mas terá que conversar com meus pais!"},
-              ]
-            }
-          ]
-        },
-        npcB: {
-          type: "Person",
-          x: utils.withGrid(7),
-          y: utils.withGrid(8),
-          src: "/img/npc/SpriteSheet7.png",
-          talking: [
-            
-            {
-              events: [
-                { type: "textMessage", text: "Liberado!", faceHero:"npcB" },
-                { type: "addStoryFlag", flag: "CONVERSAR_COM_PAIS"},
               ]
             }
           ]
@@ -558,19 +544,66 @@ class OverworldMap {
             ]
           }
         ],
+        [utils.asGridCoord(16,5)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "loja",
+                x: utils.withGrid(8),
+                y: utils.withGrid(12),
+                direction: "up"
+              }
+            ]
+          }
+        ],
+        [utils.asGridCoord(12,12)]: [
+          {
+            events: [
+              {
+                type: "changeMap",
+                map: "marshall1",
+                x: utils.withGrid(9),
+                y: utils.withGrid(14),
+                direction: "up"
+              }
+            ]
+          }
+        ],
       }
     },
     quarto3:{
       id: "quarto3",
       lowerSrc: "./img/lugares/quarto3.png",
-      upperSrc: "./img/lugares/quartoa1.png",
+      upperSrc: "./img/lugares/quartoa3.png",
       ConfigObjects: {
         hero: {
           type: "Person",
           isPlayerControlled: true,
           x: utils.withGrid(8),
           y: utils.withGrid(8),
-        }
+        },
+        npcA: {
+          type: "Person",
+          x: utils.withGrid(6),
+          y: utils.withGrid(7),
+          src: "/img/npc/SpriteSheet9.png",
+          talking: [
+            {
+              required: ["CONVERSOU_COM_PAIS"],
+              events: [
+                { type: "textMessage", text: "boa sorte para suas jornadas!", faceHero: "npcA" },
+              ]
+            },
+            {
+              events: [
+                { type: "textMessage", text: "Olá, sou o pai do seu amigo!", faceHero:"npcA" },
+                { type: "textMessage", text: "Posso deixar você ir com ele, mas protega ele por mim!"},
+                { type: "addStoryFlag", flag: "CONVERSAR_COM_PAIS" },
+              ]
+            }
+          ]
+        },
       },
       cutsceneSpaces:{
         [utils.asGridCoord(8,12)]: [
@@ -591,7 +624,7 @@ class OverworldMap {
     quarto4:{
       id: "quarto4",
       lowerSrc: "./img/lugares/quarto3.png",
-      upperSrc: "./img/lugares/quartoa1.png",
+      upperSrc: "./img/lugares/quartoa3.png",
       ConfigObjects: {
         hero: {
           type: "Person",
@@ -607,7 +640,8 @@ class OverworldMap {
             talking: [
               {
                 events: [
-                  { type: "textMessage", text: "HAI!", faceHero:"npcA" },
+                  { type: "textMessage", text: "Dicas: status de cura vai te curar gradualmente por uns turnos!", faceHero:"npcA" },
+                  { type: "textMessage", text: "Dicas: status de paralisia paralisa as vezes seu oponente!" }
                 ]
               },
             ]
@@ -620,7 +654,7 @@ class OverworldMap {
             talking: [
             {
                 events: [
-                { type: "textMessage", text: "HAI!", faceHero:"npcB" },
+                { type: "textMessage", text: "Estou com medo dos monstros!", faceHero:"npcB" },
                 ]
             }
             ],
@@ -653,5 +687,174 @@ class OverworldMap {
           }
         ],
       }
-    }
+    },
+    loja: {
+      id: "loja",
+      lowerSrc: "./img/lugares/loja.png",
+      upperSrc: "./img/lugares/lojaa1.png",
+      ConfigObjects: {
+        hero: {
+          type: "Person",
+          isPlayerControlled: true,
+          x: utils.withGrid(8),
+          y: utils.withGrid(8),
+        },
+        npcA: {
+          type: "Person",
+          x: utils.withGrid(8),
+          y: utils.withGrid(7),
+          src: "/img/npc/SpriteSheet16.png",
+          talking: [
+            {
+              events: [
+                { type: "textMessage", text: "A loja por enquanto não está disponível!", faceHero:"npcA" },
+              ]
+            },
+          ],
+        },
+      },
+        cutsceneSpaces: {
+          [utils.asGridCoord(8,9)]: [
+            {
+              events: [
+                { type: "textMessage", text: "A loja por enquanto não está disponível!" },
+              ]
+            }
+          ],
+          [utils.asGridCoord(8,12)]: [
+            {
+              events: [
+                {
+                  type: "changeMap",
+                  map: "fallarden",
+                  x: utils.withGrid(16),
+                  y: utils.withGrid(6),
+                  direction: "down"
+                }
+              ]
+            }
+          ],
+        }
+    },
+    marshall1:{
+      id: "marshall1",
+      lowerSrc: "./img/lugares/marshall cave1.png",
+      upperSrc: "./img/lugares/marshall cave1a1.png",
+      ConfigObjects: {
+        hero: {
+          type: "Person",
+          isPlayerControlled: true,
+          x: utils.withGrid(8),
+          y: utils.withGrid(8),
+        },
+        npcA:{
+          type: "Person",
+          x: utils.withGrid(9),
+          y: utils.withGrid(4),
+          src: "/img/npc/monster1.png",
+          talking: [
+            {
+              required: ["DERROTE_NPC1"],
+              events: [
+                { type: "textMessage", text: "Monstro já derrotado!", faceHero: "npcA" },
+                { who: "npcA", type: "walk",  direction: "right" },
+                { who: "npcA", type: "stand",  direction: "down" },
+              ]
+            },
+            {
+              events: [
+                { type: "textMessage", text: "AAHAHAH", faceHero: "npcA" },
+                { type: "battle", enemyId: "m1" },
+                { type: "addStoryFlag", flag: "DERROTE_NPC1"},
+                { type: "textMessage", text: "HUFFMMFIF", faceHero: "npcA" },
+                { who: "npcA", type: "walk",  direction: "right" },
+                { who: "npcA", type: "stand",  direction: "down" },
+              ]
+            }
+          ]
+        },
+      },
+      cutsceneSpaces: {
+      [utils.asGridCoord(9,14)]: [
+        {
+          events: [
+            {
+              type: "changeMap",
+              map: "fallarden",
+              x: utils.withGrid(12),
+              y: utils.withGrid(13),
+              direction: "down"
+            }
+          ]
+        },
+      ],
+      [utils.asGridCoord(9,1)]: [
+        {
+          events: [
+            {
+              type: "changeMap",
+              map: "marshall2",
+              x: utils.withGrid(9),
+              y: utils.withGrid(13),
+              direction: "up"
+            }
+          ]
+        }
+      ],
+     }
+    },
+    marshall2:{
+      id: "marshall2",
+      lowerSrc: "./img/lugares/marshall cave2.png",
+      upperSrc: "./img/lugares/marshall cave1a1.png",
+      ConfigObjects: {
+        hero: {
+          type: "Person",
+          isPlayerControlled: true,
+          x: utils.withGrid(8),
+          y: utils.withGrid(8),
+        },
+        npcA:{
+          type: "Person",
+          x: utils.withGrid(9),
+          y: utils.withGrid(4),
+          src: "/img/npc/monster2.png",
+          talking: [
+            {
+              required: ["DERROTE_NPC2"],
+              events: [
+                { type: "textMessage", text: "Monstro já derrotado!", faceHero: "npcA" },
+                { who: "npcA", type: "walk",  direction: "right" },
+                { who: "npcA", type: "stand",  direction: "down" },
+              ]
+            },
+            {
+              events: [
+                { type: "textMessage", text: "AAHAHAH", faceHero: "npcA" },
+                { type: "battle", enemyId: "m3" },
+                { type: "addStoryFlag", flag: "DERROTE_NPC2"},
+                { type: "textMessage", text: "HUFFMMFIF", faceHero: "npcA" },
+                { who: "npcA", type: "walk",  direction: "right" },
+                { who: "npcA", type: "stand",  direction: "down" },
+              ]
+            }
+          ]
+        },
+      },
+      cutsceneSpaces: {
+      [utils.asGridCoord(9,14)]: [
+        {
+          events: [
+            {
+              type: "changeMap",
+              map: "marshall1",
+              x: utils.withGrid(9),
+              y: utils.withGrid(2),
+              direction: "down"
+            }
+          ]
+        }
+      ],
+     }
+    },
   }

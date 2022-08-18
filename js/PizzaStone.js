@@ -3,10 +3,10 @@ class PizzaStone extends GameObject {
       super(config);
       this.sprite = new Sprite({
         gameObject: this,
-        src: "/img/icons/pizza-stone.png",
+        src: "/img/npc/SpriteSheetgoo8.png",
         animations: {
-          "used-down"   : [ [1,1] ],
-          "unused-down" : [ [3,1] ],
+          "used-down"   : [ [1,0] ],
+          "unused-down" : [ [0,0] ],
         },
         currentAnimation: "used-down"
       });

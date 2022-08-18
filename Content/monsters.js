@@ -55,8 +55,8 @@ window.Monsters = {
     "Bamboo": {
         name: "Bamboo",
         type: MonsterTypes.assasino,
-        src: "/img/npc/monster2.png",
+        src: "/img/npc/monstergo2.png",
         icon: "/img/icons/assasino.png",
-        actions: [ "damage1" ],
+        actions: [ "damage5" ],
     }
 }
